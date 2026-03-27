@@ -1,0 +1,524 @@
+/* Variables para mantener consistencia y facilitar cambios */
+:root {
+    /* Colores corporativos originales */
+    --azul-oscuro: #034AA6;
+    --azul-medio: #035AA6;
+    --celeste: #05C7F2;
+    --naranja-cta: #F27405;
+    --naranja-hover: #F25C05;
+
+    /* Asignación a la estructura del E-commerce */
+    --acento: var(--naranja-cta); /* Los botones principales invitan a la compra */
+    --texto: var(--azul-oscuro);  /* Usar azul oscuro en vez de negro puro da un toque muy premium */
+    --fondo: #f9fafb;
+    --borde: #e5e7eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    background-color: var(--fondo);
+    color: var(--texto);
+}
+
+/* Header y Navegación Minimalista */
+.header {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+    border-bottom: 1px solid var(--borde);
+    background-color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo-img {
+    max-height: 90px;
+    width: auto;
+    display: block;
+    border-radius: 15px;
+}
+
+.logo-link {
+    text-decoration: none;
+}
+
+/* Icono del Carrito */
+.cart {
+    cursor: pointer; /* Cambia el cursor de texto */
+    padding: 8px 16px; /* Agrandamos el área para que sea más fácil hacer clic */
+    border-radius: 20px; /* Forma de píldora moderna */
+    background-color: var(--fondo); /* Fondo sutil por defecto */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    transition: all 0.3s ease; /* Animación fluida */
+    border: 1px solid var(--borde);
+}
+
+/* El efecto al pasar el mouse por encima */
+.cart:hover {
+    background-color: var(--acento); 
+    color: white; /* El texto (número) pasa a blanco para contrastar */
+    border-color: var(--acento);
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); 
+}
+
+/* Scroll horizontal suave en celulares para las categorías */
+.nav-categorias {
+    width: 100%; /* Aseguramos que tome todo el ancho disponible */
+}
+
+.nav-categorias ul {
+    display: flex;
+    list-style: none;
+    gap: 15px; /* Reducimos un poco la separación para pantallas chicas */
+    flex-wrap: wrap; /* Si los ítems no entran, bajan a la siguiente línea */
+    justify-content: center; /* Los centramos para mantener el diseño minimalista */
+    padding-bottom: 15px;
+}
+
+.nav-categorias a {
+    text-decoration: none;
+    color: #888;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    padding: 5px 0; /* Área táctil más grande para el dedo */
+}
+
+.nav-categorias a.activo, .nav-categorias a:hover {
+    color: var(--texto);
+    border-bottom: 2px solid var(--acento);
+}
+
+/* Grid Mobile-First */
+.contenedor {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.titulo-seccion {
+    margin: 20px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.grid-productos {
+    display: grid;
+    grid-template-columns: 1fr; /* En celular: 1 columna */
+    gap: 20px;
+}
+
+/* En tablets y PC: 2 o 3 columnas */
+@media (min-width: 768px) {
+    .grid-productos { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+}
+
+/* Tarjeta de Producto */
+.tarjeta-producto {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease;
+}
+
+.imagen-placeholder {
+    height: 250px;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+    font-weight: bold;
+}
+
+.info-producto {
+    padding: 20px;
+}
+
+.precio {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Botón de Compra y Estados */
+.btn-comprar {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--texto);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-comprar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-comprar.exito {
+    background-color: var(--acento);
+}
+
+/* Chatbot */
+.chat-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--texto);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#ventana-chat {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 9999 !important;
+}
+
+.chat-oculto {
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.chat-header, .chat-footer {
+    padding: 15px;
+    background: var(--fondo);
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    height: 250px;
+    overflow-y: auto;
+    background-color: var(--fondo);
+}
+
+.msg-bot, .msg-usuario {
+    max-width: 80%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+/* El bot habla desde la izquierda (usamos el azul de tu cliente) */
+.msg-bot {
+    background-color: #e5e7eb;
+    color: var(--texto);
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+/* El usuario habla desde la derecha (usamos el naranja del cliente) */
+.msg-usuario {
+    background-color: var(--acento);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+#input-chat { 
+    border: 1px solid var(--borde); 
+    border-radius: 20px; 
+    padding: 8px 15px; 
+    width: 80%; 
+    outline: none; 
+}
+
+#btn-enviar-chat { 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    color: var(--acento); 
+    font-weight: bold; 
+}
+
+/* Footer */
+
+.footer {
+    background-color: var(--azul-oscuro);
+    color: #fff;
+    padding: 50px 20px 20px;
+    margin-top: 60px;
+}
+
+.footer-contenido {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer h4 {
+    margin-bottom: 15px;
+    color: #aaa;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.footer p {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: #ddd;
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #666;
+    border-top: 1px solid #333;
+    padding-top: 20px;
+}
+
+/* En tablets y PC, el footer se pone en fila */
+@media (min-width: 768px) {
+    .footer-contenido {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}
+
+/* Carrito lateral (OFF-CANVAS) */
+#carrito-lateral {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s ease;
+    z-index: 1000;
+}
+
+.carrito-oculto {
+    transform: translateX(100%); /* Lo esconde hacia la derecha */
+}
+
+#overlay-carrito {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    transition: opacity 0.3s ease;
+}
+
+#overlay-carrito.oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.carrito-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--borde);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.carrito-body {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.item-carrito {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.carrito-footer {
+    padding: 20px;
+    border-top: 1px solid var(--borde);
+    background-color: var(--fondo);
+}
+
+.carrito-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.btn-pagar {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--acento);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-pagar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Botones de Eliminar Carrito */
+.btn-vaciar {
+    background: none;
+    border: none;
+    color: #ef4444; /* Rojo alerta */
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: right;
+    transition: color 0.3s;
+}
+
+.btn-vaciar:hover {
+    color: #dc2626; /* Rojo más oscuro */
+}
+
+.item-carrito {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Alinea el texto y el basurero al medio */
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.btn-eliminar-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: transform 0.2s;
+}
+
+.btn-eliminar-item:hover {
+    transform: scale(1.2); /* Crece un poquito al pasar el mouse */
+}
+
+/* Efecto hover para botones principales */
+.btn-comprar:hover:not(:disabled), 
+.btn-pagar:hover:not(:disabled) {
+    background-color: var(--naranja-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(242, 116, 5, 0.3); /* Sombra color naranja sutil */
+}
+
+/* El menú de navegación activo en azul para mantener sobriedad */
+.nav-categorias a.activo, .nav-categorias a:hover {
+    color: var(--azul-medio);
+    border-bottom: 2px solid var(--celeste);
+}
+
+/* Notificaciones Toast */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 250px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    animation: slideInRight 0.3s ease forwards;
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+/* Animación para ocultar el toast suavemente */
+.toast.ocultar {
+    animation: slideOutRight 0.3s ease forwards;
+}
+
+/* Colores según el tipo de mensaje */
+.toast-exito { background-color: #10B981; } /* Verde esmeralda para éxito */
+.toast-error { background-color: #EF4444; } /* Rojo para errores */
+.toast-info  { background-color: var(--azul-oscuro); } /* El azul corporativo */
+
+/* Keyframes de las animaciones */
+@keyframes slideInRight {
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes slideOutRight {
+    to { transform: translateX(100%); opacity: 0; }
+}

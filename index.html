@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda | Minimalista & Moderna</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-top">
+            <a href="#" class="logo-link">
+            <img src="/Img/logo-cliente.png" alt="Logo de la tienda" class="logo-img">
+        </a>
+            <div class="cart">🛒 <span id="contador-carrito">0</span></div>
+        </div>
+        <nav class="nav-categorias">
+            <ul>
+                <li><a href="#" class="activo">Lanzamientos</a></li>
+                <li><a href="#">Indumentaria</a></li>
+                <li><a href="#">Accesorios</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <h2 class="titulo-seccion">Nuevos Ingresos</h2>
+        
+        <div class="grid-productos">
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-contenido">
+            <div class="contacto">
+                <h4>Contacto</h4>
+                <p>📧 hola@urban.com</p>
+                <p>📱 +54 9 11 1234-5678</p>
+            </div>
+            <div class="redes">
+                <h4>Nuestras Redes</h4>
+                <p>📸 Instagram: @urban_store</p>
+                <p>🎵 TikTok: @urban_tiktok</p>
+            </div>
+        </div>
+        <p class="copyright">© 2026 URBAN. Todos los derechos reservados.</p>
+    </footer>
+
+    <div id="carrito-lateral" class="carrito-oculto">
+        <div class="carrito-header">
+            <h3>Tu Compra</h3>
+            <button id="btn-cerrar-carrito">✖</button>
+        </div>
+        <div class="carrito-body" id="lista-carrito">
+            <p class="carrito-vacio">El carrito está vacío.</p>
+        </div>
+        <div class="carrito-footer">
+            <button id="btn-vaciar-carrito" class="btn-vaciar" onclick="vaciarCarrito()" style="display: none;">Vaciar todo el carrito</button>
+            
+            <div class="carrito-total">
+                <span>Total:</span>
+                <span id="total-precio">$0,00</span>
+            </div>
+            <button class="btn-pagar" id="btn-pagar" disabled>Ir a Pagar</button>
+        </div>
+    </div>
+    
+    <div id="overlay-carrito" class="oculto"></div>
+
+    <div id="ventana-chat" class="chat-oculto">
+        <div class="chat-header">
+            <span>Asistente Virtual</span>
+            <button id="btn-cerrar-chat">✖</button>
+        </div>
+        <div class="chat-body" id="chat-mensajes">
+            <p class="msg-bot">Hola, ¿en qué te ayudo hoy? Escribe "humano" si necesitas atención personalizada.</p>
+        </div>
+        <div class="chat-footer">
+            <input type="text" id="input-chat" placeholder="Escribe tu duda...">
+            <button id="btn-enviar-chat">➤</button>
+        </div>
+    </div>
+    <button id="btn-chatbot" class="chat-flotante">💬</button>
+
+    <div id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
