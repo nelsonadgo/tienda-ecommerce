@@ -575,3 +575,66 @@ body {
 @keyframes slideOutRight {
     to { transform: translateX(100%); opacity: 0; }
 }
+
+/* HERO SECTION  */
+.hero-section {
+    /* Gradiente moderno usando las variables de tu paleta */
+    background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    border-radius: 12px;
+    margin: 20px auto 40px;
+    max-width: 1200px;
+    box-shadow: 0 10px 30px rgba(3, 74, 166, 0.3); /* Sombra azulada */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-contenido {
+    max-width: 650px;
+}
+
+.hero-contenido h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.hero-contenido p {
+    font-size: 1.15rem;
+    margin-bottom: 30px;
+    color: var(--celeste); /* El celeste brillante queda genial sobre fondo oscuro */
+    line-height: 1.5;
+}
+
+.btn-hero {
+    display: inline-block;
+    background-color: var(--naranja-cta);
+    color: white;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(242, 116, 5, 0.4);
+}
+
+.btn-hero:hover {
+    background-color: var(--naranja-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(242, 116, 5, 0.6);
+}
+
+/* Ajuste responsivo para celulares */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 50px 20px;
+        margin: 10px 10px 30px;
+        border-radius: 8px;
+    }
+    .hero-contenido h1 { font-size: 2.2rem; }
+}

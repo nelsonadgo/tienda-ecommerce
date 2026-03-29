@@ -47,31 +47,35 @@ async function cargarProductos() {
     const mockProductos = [
         { 
             id: 1, 
-            nombre: 'Buzo Oversize Urban Deep', 
-            precio: 28900, 
-            categoria: 'Buzos', 
-            imagen: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44a?q=80&w=400&auto=format&fit=crop' 
+            nombre: 'Gift Card Steam $20 USD', 
+            precio: 25000, 
+            categoria: 'Gift Cards', 
+            // Imagen de teclado gamer / luces neón
+            imagen: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=400&auto=format&fit=crop' 
         },
         { 
             id: 2, 
-            nombre: 'Remera Basic Cotton White', 
-            precio: 14500, 
-            categoria: 'Remeras', 
-            imagen: 'https://images.unsplash.com/photo-1521577352947-9bb58764b69a?q=80&w=400&auto=format&fit=crop' 
+            nombre: 'Tarjeta Google Play $5000', 
+            precio: 5500, 
+            categoria: 'Gift Cards', 
+            // Imagen concepto móvil / apps
+            imagen: 'https://images.unsplash.com/photo-1588508065123-287b28e0131b?q=80&w=400&auto=format&fit=crop' 
         },
         { 
             id: 3, 
-            nombre: 'Pantalon Cargo Techwear Black', 
-            precio: 35000, 
-            categoria: 'Pantalones', 
-            imagen: 'https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=400&auto=format&fit=crop' 
+            nombre: 'Auriculares Inalámbricos Gaming Pro', 
+            precio: 45000, 
+            categoria: 'Tecnología', 
+            // Imagen de auriculares premium
+            imagen: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=400&auto=format&fit=crop' 
         },
         { 
             id: 4, 
-            nombre: 'Gorra Trucker Urban Patch', 
-            precio: 9800, 
-            categoria: 'Accesorios', 
-            imagen: 'https://images.unsplash.com/photo-1588850453982-f7560a66d03d?q=80&w=400&auto=format&fit=crop' 
+            nombre: 'Mouse Gamer RGB Ultraligero', 
+            precio: 18500, 
+            categoria: 'Tecnología', 
+            // Imagen de mouse gamer
+            imagen: 'https://images.unsplash.com/photo-1527814050087-379381547339?q=80&w=400&auto=format&fit=crop' 
         }
     ];
 
