@@ -131,8 +131,10 @@ body {
 
 .grid-productos {
     display: grid;
-    grid-template-columns: 1fr; /* En celular: 1 columna */
-    gap: 20px;
+    /* Ajuste para que se vea bien en celulares (1 columna) y crezca en desktop */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px; /* Más espacio para que respire el diseño */
+    padding: 20px 0;
 }
 
 /* En tablets y PC: 2 o 3 columnas */
@@ -142,11 +144,59 @@ body {
 
 /* Tarjeta de Producto */
 .tarjeta-producto {
-    background: #fff;
-    border: 1px solid var(--borde);
-    border-radius: 12px;
+    background-color: white;
+    border-radius: 12px; /* Esquinas redondeadas modernas */
+    overflow: hidden; /* Corta la imagen si sobresale del radio */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor-imagen {
+    width: 100%;
+    height: 300px;
     overflow: hidden;
-    transition: transform 0.2s ease;
+    display: flex;
+}
+
+.producto-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ajusta la imagen sin deformarla */
+    transition: transform 0.5s ease;
+}
+
+.tarjeta-producto:hover .producto-img {
+    transform: scale(1.05); /* Zoom suave en la imagen */
+}
+
+.info-producto {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: space-between; /* Empuja el botón hacia abajo */
+}
+
+.info-producto h3 {
+    font-size: 1.1rem;
+    color: var(--texto); /* Tu azul oscuro corporativo */
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.info-producto .precio {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--naranja-cta); /* Tu naranja corporativo */
+    margin-bottom: 15px;
 }
 
 .imagen-placeholder {
@@ -171,16 +221,19 @@ body {
 
 /* Botón de Compra y Estados */
 .btn-comprar {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--texto);
-    color: #fff;
+    background-color: var(--naranja-cta); /* Llamado a la acción claro */
+    color: white;
     border: none;
+    padding: 12px 20px;
     border-radius: 8px;
-    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Ocupa todo el ancho en mobile */
+}
+
+.btn-comprar:hover {
+    background-color: var(--naranja-hover);
 }
 
 .btn-comprar:disabled {

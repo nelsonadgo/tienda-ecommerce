@@ -1,6 +1,6 @@
 // VARIABLES GLOBALES Y CONEXIÓN
-
-const urlAPI = 'https://localhost:7117/api/productos'; 
+// La URL real queda comentada por ahora
+// const urlAPI = 'https://localhost:7117/api/productos'; 
 let inventarioLocal = []; 
 let carrito = []; 
 
@@ -13,6 +13,8 @@ const iconoCarritoHeader = document.querySelector('.cart');
 
 // FETCH DE PRODUCTOS
 async function cargarProductos() {
+    // BLOQUE 1: CÓDIGO DE PRODUCCIÓN (API REAL EN C#) - COMENTADO
+    /*
     try {
         const respuesta = await fetch(urlAPI);
         inventarioLocal = await respuesta.json(); 
@@ -25,7 +27,9 @@ async function cargarProductos() {
             
             gridProductos.innerHTML += `
                 <article class="tarjeta-producto">
-                    <div class="imagen-placeholder">${prod.categoria}</div>
+                    <div class="contenedor-imagen">
+                        <img src="${prod.imagen}" alt="${prod.nombre}" class="producto-img">
+                    </div>
                     <div class="info-producto">
                         <h3>${prod.nombre}</h3>
                         <p class="precio">${precioFormateado}</p>
@@ -37,6 +41,61 @@ async function cargarProductos() {
     } catch (error) {
         console.error("Error conectando con la API:", error);
     }
+    */
+
+    // MOCK DATA PARA LA DEMO DEL CLIENTE (ACTIVO)
+    const mockProductos = [
+        { 
+            id: 1, 
+            nombre: 'Buzo Oversize Urban Deep', 
+            precio: 28900, 
+            categoria: 'Buzos', 
+            imagen: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44a?q=80&w=400&auto=format&fit=crop' 
+        },
+        { 
+            id: 2, 
+            nombre: 'Remera Basic Cotton White', 
+            precio: 14500, 
+            categoria: 'Remeras', 
+            imagen: 'https://images.unsplash.com/photo-1521577352947-9bb58764b69a?q=80&w=400&auto=format&fit=crop' 
+        },
+        { 
+            id: 3, 
+            nombre: 'Pantalon Cargo Techwear Black', 
+            precio: 35000, 
+            categoria: 'Pantalones', 
+            imagen: 'https://images.unsplash.com/photo-1620799140188-3b2a02fd9a77?q=80&w=400&auto=format&fit=crop' 
+        },
+        { 
+            id: 4, 
+            nombre: 'Gorra Trucker Urban Patch', 
+            precio: 9800, 
+            categoria: 'Accesorios', 
+            imagen: 'https://images.unsplash.com/photo-1588850453982-f7560a66d03d?q=80&w=400&auto=format&fit=crop' 
+        }
+    ];
+
+    inventarioLocal = mockProductos;
+    
+    const gridProductos = document.querySelector('.grid-productos');
+    gridProductos.innerHTML = ''; 
+
+    inventarioLocal.forEach(prod => {
+        const precioFormateado = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(prod.precio);
+        
+        gridProductos.innerHTML += `
+            <article class="tarjeta-producto">
+                <div class="contenedor-imagen">
+                    <img src="${prod.imagen}" alt="${prod.nombre}" class="producto-img">
+                </div>
+                <div class="info-producto">
+                    <h3>${prod.nombre}</h3>
+                    <p class="precio">${precioFormateado}</p>
+                    <button class="btn-comprar" id="btn-comprar-${prod.id}" onclick="agregarAlCarrito(${prod.id}, this)">Agregar al carrito</button>
+                </div>
+            </article>
+        `;
+    });
 }
 
 // LÓGICA DEL CARRITO DE COMPRAS
@@ -160,6 +219,9 @@ btnPagar.addEventListener('click', async () => {
             }
         });
 
+        // NOTA: Esta URL de Mercado Pago sigue apuntando a localhost. 
+        // Si el cliente presiona pagar desde su celular, esto fallará, 
+        // pero para la demo visual del catálogo es irrelevante.
         const urlPagos = 'https://localhost:7117/api/pagos/crear-preferencia'; 
         
         const respuesta = await fetch(urlPagos, {
@@ -196,7 +258,6 @@ function agregarMensajeAlChat(mensaje, emisor, esHTML = false) {
     const divMensaje = document.createElement('div');
     divMensaje.classList.add(`msg-${emisor}`);
     
-    // Si el mensaje trae botones o links, lo insertamos como HTML, sino como texto seguro
     if (esHTML) {
         divMensaje.innerHTML = mensaje;
     } else {
@@ -235,7 +296,6 @@ function generarRespuestaBot(mensaje) {
         respuesta = "🏷️ Todos los precios están actualizados en nuestro catálogo web.";
     } 
     else if (texto.includes("humano") || texto.includes("contacto") || texto.includes("asesor") || texto.includes("problema")) {
-        // Tu excelente lógica de WhatsApp integrada aquí:
         const telefono = "5491123456789"; 
         const msjWa = "Hola, necesito hablar con un asesor desde la tienda web.";
         const linkWa = `https://wa.me/${telefono}?text=${encodeURIComponent(msjWa)}`;
