@@ -43,14 +43,13 @@ async function cargarProductos() {
     }
     */
 
-    // MOCK DATA PARA LA DEMO DEL CLIENTE (ACTIVO)
+    // BLOQUE 2: MOCK DATA PARA LA DEMO DEL CLIENTE (ACTIVO)
     const mockProductos = [
         { 
             id: 1, 
             nombre: 'Gift Card Steam $20 USD', 
             precio: 25000, 
             categoria: 'Gift Cards', 
-            // Imagen de teclado gamer / luces neón
             imagen: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=400&auto=format&fit=crop' 
         },
         { 
@@ -58,7 +57,6 @@ async function cargarProductos() {
             nombre: 'Tarjeta Google Play $5000', 
             precio: 5500, 
             categoria: 'Gift Cards', 
-            // Imagen concepto móvil / apps
             imagen: 'https://images.unsplash.com/photo-1588508065123-287b28e0131b?q=80&w=400&auto=format&fit=crop' 
         },
         { 
@@ -66,7 +64,6 @@ async function cargarProductos() {
             nombre: 'Auriculares Inalámbricos Gaming Pro', 
             precio: 45000, 
             categoria: 'Tecnología', 
-            // Imagen de auriculares premium
             imagen: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?q=80&w=400&auto=format&fit=crop' 
         },
         { 
@@ -74,7 +71,6 @@ async function cargarProductos() {
             nombre: 'Mouse Gamer RGB Ultraligero', 
             precio: 18500, 
             categoria: 'Tecnología', 
-            // Imagen de mouse gamer
             imagen: 'https://images.unsplash.com/photo-1527814050087-379381547339?q=80&w=400&auto=format&fit=crop' 
         }
     ];
@@ -190,7 +186,7 @@ function cerrarCarrito() {
 
 cargarProductos();
 
-// SISTEMA DE NOTIFICACIONES (TOASTS)
+// SISTEMA DE NOTIFICACIONES (TOAST)
 function mostrarToast(mensaje, tipo = 'info') {
     const contenedor = document.getElementById('toast-container');
     const toast = document.createElement('div');
@@ -206,12 +202,180 @@ function mostrarToast(mensaje, tipo = 'info') {
     }, 3000);
 }
 
-// INTEGRACIÓN CON MERCADO PAGO
-btnPagar.addEventListener('click', async () => {
-    btnPagar.disabled = true;
-    const textoOriginal = btnPagar.innerText;
-    btnPagar.innerText = "Conectando con Mercado Pago...";
+// =========================================
+// GESTIÓN DE USUARIOS, LOGIN Y CHECKOUT
+// =========================================
+const overlayCheckout = document.getElementById('overlay-checkout');
+const formCheckout = document.getElementById('form-checkout');
+const btnCerrarCheckout = document.getElementById('btn-cerrar-checkout');
+const btnConfirmarDatos = document.getElementById('btn-confirmar-datos');
+const btnLoginHeader = document.getElementById('btn-login-header');
+const spanNombreUsuario = document.getElementById('nombre-usuario-header');
+const btnLogout = document.getElementById('btn-logout');
 
+// Elementos de las pestañas
+const tabLogin = document.getElementById('tab-login');
+const tabRegistro = document.getElementById('tab-registro');
+const camposRegistro = document.querySelectorAll('.campo-registro');
+
+// Base de datos simulada y Sesión
+let baseDatosUsuarios = JSON.parse(localStorage.getItem('bdUsuariosDRVentas')) || [];
+let usuarioActivo = JSON.parse(localStorage.getItem('sesionActivaDRVentas')) || null;
+let modoLogin = true; // true = Login, false = Registro
+
+// 1. Inicializar la UI si hay sesión
+function actualizarUIUsuario() {
+    if (usuarioActivo) {
+        spanNombreUsuario.innerText = usuarioActivo.nombre.split(' ')[0];
+        btnLogout.classList.remove('oculto');
+    } else {
+        spanNombreUsuario.innerText = "Ingresar";
+        btnLogout.classList.add('oculto');
+    }
+}
+actualizarUIUsuario(); // Ejecutar al cargar la página
+
+// 2. Lógica de Pestañas (Cambiar entre Login y Registro)
+function cambiarModoAuth(esLogin) {
+    modoLogin = esLogin;
+    
+    if (esLogin) {
+        tabLogin.classList.add('activa');
+        tabRegistro.classList.remove('activa');
+        camposRegistro.forEach(campo => campo.style.display = 'none');
+        document.getElementById('nombre').removeAttribute('required');
+        document.getElementById('direccion').removeAttribute('required');
+        btnConfirmarDatos.innerText = "Ingresar a mi cuenta";
+    } else {
+        tabRegistro.classList.add('activa');
+        tabLogin.classList.remove('activa');
+        camposRegistro.forEach(campo => campo.style.display = 'block');
+        document.getElementById('nombre').setAttribute('required', 'true');
+        document.getElementById('direccion').setAttribute('required', 'true');
+        btnConfirmarDatos.innerText = "Crear Cuenta";
+    }
+}
+
+tabLogin.addEventListener('click', () => cambiarModoAuth(true));
+tabRegistro.addEventListener('click', () => cambiarModoAuth(false));
+
+// 3. Abrir modal desde el botón "Ingresar" del Header
+btnLoginHeader.addEventListener('click', () => {
+    if (usuarioActivo) {
+        mostrarToast(`Ya estás conectado como ${usuarioActivo.nombre}`, "info");
+        return;
+    }
+    cambiarModoAuth(true); // Abrir por defecto en Login
+    formCheckout.reset();
+    overlayCheckout.classList.remove('oculto');
+});
+
+// 4. Salir (Logout)
+btnLogout.addEventListener('click', () => {
+    usuarioActivo = null;
+    localStorage.removeItem('sesionActivaDRVentas');
+    actualizarUIUsuario();
+    mostrarToast("Has cerrado sesión exitosamente.", "info");
+});
+
+// 5. Flujo del Carrito a Pago
+btnPagar.addEventListener('click', async () => {
+    cerrarCarrito(); 
+
+    if (!usuarioActivo) {
+        mostrarToast("Inicia sesión o regístrate para comprar.", "info");
+        cambiarModoAuth(true);
+        overlayCheckout.classList.remove('oculto');
+    } else {
+        mostrarToast(`Preparando tu pago, ${usuarioActivo.nombre.split(' ')[0]}...`, "exito");
+        btnPagar.disabled = true;
+        btnPagar.innerText = "Conectando...";
+        await procesarPagoMercadoPago();
+    }
+});
+
+btnCerrarCheckout.addEventListener('click', () => overlayCheckout.classList.add('oculto'));
+
+// =========================================
+// MOTOR DE AUTENTICACIÓN (FORMULARIO)
+// =========================================
+let peticionEnCurso = false; 
+
+formCheckout.addEventListener('submit', async (e) => {
+    e.preventDefault(); 
+    if (peticionEnCurso) return; 
+
+    peticionEnCurso = true;
+    btnConfirmarDatos.disabled = true;
+    const textoOriginal = btnConfirmarDatos.innerText;
+    btnConfirmarDatos.innerText = "Procesando...";
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    try {
+        if (modoLogin) {
+            // PROCESO DE LOGIN
+            const usuarioEncontrado = baseDatosUsuarios.find(u => u.email === email && u.password === password);
+            
+            if (!usuarioEncontrado) {
+                mostrarToast("Correo o contraseña incorrectos.", "error");
+                throw new Error("Credenciales inválidas");
+            }
+            
+            usuarioActivo = usuarioEncontrado;
+            mostrarToast(`¡Bienvenido de nuevo, ${usuarioActivo.nombre.split(' ')[0]}!`, "exito");
+
+        } else {
+            // PROCESO DE REGISTRO
+            const existeEmail = baseDatosUsuarios.some(u => u.email === email);
+            if (existeEmail) {
+                mostrarToast("Este correo ya está registrado.", "error");
+                throw new Error("Email duplicado");
+            }
+
+            const nuevoUsuario = {
+                nombre: document.getElementById('nombre').value.trim(),
+                email: email,
+                password: password,
+                direccion: document.getElementById('direccion').value.trim()
+            };
+            
+            baseDatosUsuarios.push(nuevoUsuario);
+            localStorage.setItem('bdUsuariosDRVentas', JSON.stringify(baseDatosUsuarios));
+            
+            usuarioActivo = nuevoUsuario;
+            mostrarToast("¡Cuenta creada con éxito!", "exito");
+        }
+        
+        // Guardamos la sesión activa
+        localStorage.setItem('sesionActivaDRVentas', JSON.stringify(usuarioActivo));
+        actualizarUIUsuario();
+        
+        // Si venía desde el carrito queriendo pagar, lo enviamos a Mercado Pago
+        if (carrito.length > 0) {
+            btnConfirmarDatos.innerText = "Conectando con Mercado Pago...";
+            await procesarPagoMercadoPago();
+        } else {
+            overlayCheckout.classList.add('oculto');
+        }
+
+    } catch (error) {
+        // En caso de error (credenciales malas), destrabamos el botón
+        console.warn(error.message);
+    } finally {
+        if (carrito.length === 0 || !usuarioActivo) {
+            peticionEnCurso = false;
+            btnConfirmarDatos.disabled = false;
+            btnConfirmarDatos.innerText = textoOriginal;
+        }
+    }
+});
+
+// =========================================
+// INTEGRACIÓN CON MERCADO PAGO
+// =========================================
+async function procesarPagoMercadoPago() {
     try {
         const itemsAgrupados = [];
         carrito.forEach(prod => {
@@ -223,9 +387,6 @@ btnPagar.addEventListener('click', async () => {
             }
         });
 
-        // NOTA: Esta URL de Mercado Pago sigue apuntando a localhost. 
-        // Si el cliente presiona pagar desde su celular, esto fallará, 
-        // pero para la demo visual del catálogo es irrelevante.
         const urlPagos = 'https://localhost:7117/api/pagos/crear-preferencia'; 
         
         const respuesta = await fetch(urlPagos, {
@@ -240,12 +401,12 @@ btnPagar.addEventListener('click', async () => {
         window.location.href = datos.urlPago; 
 
     } catch (error) {
-        console.error("Error procesando el pago:", error);
-        mostrarToast("Hubo un problema al contactar con la pasarela de pagos. Por favor, intenta de nuevo.", "error");
         btnPagar.disabled = false;
-        btnPagar.innerText = textoOriginal;
+        btnPagar.innerText = "Ir a Pagar";
+        overlayCheckout.classList.add('oculto');
+        throw error; 
     }
-});
+}
 
 // LÓGICA DEL CHATBOT VIRTUAL
 const btnChatbot = document.getElementById('btn-chatbot');
@@ -286,7 +447,6 @@ function procesarMensajeUsuario() {
 
 function generarRespuestaBot(mensaje) {
     const texto = mensaje.toLowerCase();
-    
     let respuesta = "Disculpa, no entendí bien. ¿Puedes preguntarme sobre envíos, pagos o precios?";
     let esHTML = false;
 

@@ -1,15 +1,15 @@
-/* Variables para mantener consistencia y facilitar cambios */
+/* =========================================
+   VARIABLES GLOBALES
+   ========================================= */
 :root {
-    /* Colores corporativos originales */
     --azul-oscuro: #034AA6;
     --azul-medio: #035AA6;
     --celeste: #05C7F2;
     --naranja-cta: #F27405;
     --naranja-hover: #F25C05;
 
-    /* Asignación a la estructura del E-commerce */
-    --acento: var(--naranja-cta); /* Los botones principales invitan a la compra */
-    --texto: var(--azul-oscuro);  /* Usar azul oscuro en vez de negro puro da un toque muy premium */
+    --acento: var(--naranja-cta); 
+    --texto: var(--azul-oscuro);  
     --fondo: #f9fafb;
     --borde: #e5e7eb;
 }
@@ -26,7 +26,14 @@ body {
     color: var(--texto);
 }
 
-/* Header y Navegación Minimalista */
+/* 🔥 LA REGLA VITAL PARA OCULTAR MODALES 🔥 */
+.oculto {
+    display: none !important;
+}
+
+/* =========================================
+   HEADER Y NAVEGACIÓN
+   ========================================= */
 .header {
     display: flex;
     flex-direction: column;
@@ -63,40 +70,38 @@ body {
     text-decoration: none;
 }
 
-/* Icono del Carrito */
-.cart {
-    cursor: pointer; /* Cambia el cursor de texto */
-    padding: 8px 16px; /* Agrandamos el área para que sea más fácil hacer clic */
-    border-radius: 20px; /* Forma de píldora moderna */
-    background-color: var(--fondo); /* Fondo sutil por defecto */
+/* Iconos (Usuario y Carrito) */
+.cart, #btn-login-header {
+    cursor: pointer; 
+    padding: 8px 16px; 
+    border-radius: 20px; 
+    background-color: var(--fondo); 
     font-weight: bold;
     display: flex;
     align-items: center;
     gap: 8px; 
-    transition: all 0.3s ease; /* Animación fluida */
+    transition: all 0.3s ease; 
     border: 1px solid var(--borde);
 }
 
-/* El efecto al pasar el mouse por encima */
-.cart:hover {
+.cart:hover, #btn-login-header:hover {
     background-color: var(--acento); 
-    color: white; /* El texto (número) pasa a blanco para contrastar */
+    color: white; 
     border-color: var(--acento);
     transform: translateY(-2px); 
-    box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); 
+    box-shadow: 0 4px 10px rgba(242, 116, 5, 0.3); 
 }
 
-/* Scroll horizontal suave en celulares para las categorías */
 .nav-categorias {
-    width: 100%; /* Aseguramos que tome todo el ancho disponible */
+    width: 100%; 
 }
 
 .nav-categorias ul {
     display: flex;
     list-style: none;
-    gap: 15px; /* Reducimos un poco la separación para pantallas chicas */
-    flex-wrap: wrap; /* Si los ítems no entran, bajan a la siguiente línea */
-    justify-content: center; /* Los centramos para mantener el diseño minimalista */
+    gap: 15px; 
+    flex-wrap: wrap; 
+    justify-content: center; 
     padding-bottom: 15px;
 }
 
@@ -107,46 +112,38 @@ body {
     font-size: 0.9rem;
     text-transform: uppercase;
     transition: color 0.3s ease;
-    padding: 5px 0; /* Área táctil más grande para el dedo */
+    padding: 5px 0; 
 }
 
 .nav-categorias a.activo, .nav-categorias a:hover {
-    color: var(--texto);
-    border-bottom: 2px solid var(--acento);
+    color: var(--azul-medio);
+    border-bottom: 2px solid var(--celeste);
 }
 
-/* Grid Mobile-First */
+/* =========================================
+   GRILLA Y TARJETAS
+   ========================================= */
 .contenedor {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-.titulo-seccion {
-    margin: 20px 0;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 .grid-productos {
     display: grid;
-    /* Ajuste para que se vea bien en celulares (1 columna) y crezca en desktop */
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px; /* Más espacio para que respire el diseño */
+    gap: 30px; 
     padding: 20px 0;
 }
 
-/* En tablets y PC: 2 o 3 columnas */
 @media (min-width: 768px) {
     .grid-productos { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
 }
 
-/* Tarjeta de Producto */
 .tarjeta-producto {
     background-color: white;
-    border-radius: 12px; /* Esquinas redondeadas modernas */
-    overflow: hidden; /* Corta la imagen si sobresale del radio */
+    border-radius: 12px; 
+    overflow: hidden; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #f0f0f0;
@@ -169,12 +166,12 @@ body {
 .producto-img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ajusta la imagen sin deformarla */
+    object-fit: cover; 
     transition: transform 0.5s ease;
 }
 
 .tarjeta-producto:hover .producto-img {
-    transform: scale(1.05); /* Zoom suave en la imagen */
+    transform: scale(1.05); 
 }
 
 .info-producto {
@@ -182,12 +179,12 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    justify-content: space-between; /* Empuja el botón hacia abajo */
+    justify-content: space-between; 
 }
 
 .info-producto h3 {
     font-size: 1.1rem;
-    color: var(--texto); /* Tu azul oscuro corporativo */
+    color: var(--texto); 
     margin-bottom: 10px;
     font-weight: 600;
 }
@@ -195,33 +192,12 @@ body {
 .info-producto .precio {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--naranja-cta); /* Tu naranja corporativo */
+    color: var(--naranja-cta); 
     margin-bottom: 15px;
 }
 
-.imagen-placeholder {
-    height: 250px;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #aaa;
-    font-weight: bold;
-}
-
-.info-producto {
-    padding: 20px;
-}
-
-.precio {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-/* Botón de Compra y Estados */
 .btn-comprar {
-    background-color: var(--naranja-cta); /* Llamado a la acción claro */
+    background-color: var(--naranja-cta); 
     color: white;
     border: none;
     padding: 12px 20px;
@@ -229,23 +205,16 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* Ocupa todo el ancho en mobile */
+    width: 100%; 
 }
 
-.btn-comprar:hover {
-    background-color: var(--naranja-hover);
-}
+.btn-comprar:hover { background-color: var(--naranja-hover); }
+.btn-comprar:disabled { background-color: #ccc; cursor: not-allowed; }
+.btn-comprar.exito { background-color: var(--acento); }
 
-.btn-comprar:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.btn-comprar.exito {
-    background-color: var(--acento);
-}
-
-/* Chatbot */
+/* =========================================
+   CHATBOT
+   ========================================= */
 .chat-flotante {
     position: fixed;
     bottom: 20px;
@@ -309,7 +278,6 @@ body {
     word-wrap: break-word;
 }
 
-/* El bot habla desde la izquierda (usamos el azul de tu cliente) */
 .msg-bot {
     background-color: #e5e7eb;
     color: var(--texto);
@@ -317,7 +285,6 @@ body {
     border-bottom-left-radius: 2px;
 }
 
-/* El usuario habla desde la derecha (usamos el naranja del cliente) */
 .msg-usuario {
     background-color: var(--acento);
     color: white;
@@ -341,8 +308,9 @@ body {
     font-weight: bold; 
 }
 
-/* Footer */
-
+/* =========================================
+   FOOTER
+   ========================================= */
 .footer {
     background-color: var(--azul-oscuro);
     color: #fff;
@@ -366,11 +334,7 @@ body {
     letter-spacing: 1px;
 }
 
-.footer p {
-    margin-bottom: 10px;
-    font-size: 0.95rem;
-    color: #ddd;
-}
+.footer p { margin-bottom: 10px; font-size: 0.95rem; color: #ddd; }
 
 .copyright {
     text-align: center;
@@ -381,260 +345,186 @@ body {
     padding-top: 20px;
 }
 
-/* En tablets y PC, el footer se pone en fila */
 @media (min-width: 768px) {
-    .footer-contenido {
-        flex-direction: row;
-        justify-content: space-around;
-    }
+    .footer-contenido { flex-direction: row; justify-content: space-around; }
 }
 
-/* Carrito lateral (OFF-CANVAS) */
+/* =========================================
+   CARRITO LATERAL (OFF-CANVAS)
+   ========================================= */
 #carrito-lateral {
     position: fixed;
-    top: 0;
-    right: 0;
-    width: 100%;
-    max-width: 400px;
-    height: 100vh;
+    top: 0; right: 0; width: 100%; max-width: 400px; height: 100vh;
     background-color: #fff;
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
+    display: flex; flex-direction: column;
     transition: transform 0.4s ease;
     z-index: 1000;
 }
 
-.carrito-oculto {
-    transform: translateX(100%); /* Lo esconde hacia la derecha */
-}
+.carrito-oculto { transform: translateX(100%); }
 
 #overlay-carrito {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+    top: 0; left: 0; width: 100%; height: 100vh;
     background: rgba(0,0,0,0.5);
     z-index: 999;
     transition: opacity 0.3s ease;
 }
 
-#overlay-carrito.oculto {
-    opacity: 0;
-    pointer-events: none;
-}
-
 .carrito-header {
-    padding: 20px;
-    border-bottom: 1px solid var(--borde);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 20px; border-bottom: 1px solid var(--borde);
+    display: flex; justify-content: space-between; align-items: center;
 }
 
-.carrito-body {
-    padding: 20px;
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
-.item-carrito {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
-}
+.carrito-body { padding: 20px; flex-grow: 1; overflow-y: auto; }
 
 .carrito-footer {
-    padding: 20px;
-    border-top: 1px solid var(--borde);
-    background-color: var(--fondo);
+    padding: 20px; border-top: 1px solid var(--borde); background-color: var(--fondo);
 }
 
 .carrito-total {
-    display: flex;
-    justify-content: space-between;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 15px;
+    display: flex; justify-content: space-between;
+    font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;
 }
 
 .btn-pagar {
-    width: 100%;
-    padding: 15px;
-    background-color: var(--acento);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: bold;
-    cursor: pointer;
+    width: 100%; padding: 15px; background-color: var(--acento);
+    color: white; border: none; border-radius: 8px; font-size: 1.1rem;
+    font-weight: bold; cursor: pointer;
 }
+.btn-pagar:disabled { background-color: #ccc; cursor: not-allowed; }
 
-.btn-pagar:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-/* Botones de Eliminar Carrito */
 .btn-vaciar {
-    background: none;
-    border: none;
-    color: #ef4444; /* Rojo alerta */
-    cursor: pointer;
-    font-size: 0.9rem;
-    text-decoration: underline;
-    margin-bottom: 15px;
-    width: 100%;
-    text-align: right;
-    transition: color 0.3s;
+    background: none; border: none; color: #ef4444; cursor: pointer;
+    font-size: 0.9rem; text-decoration: underline; margin-bottom: 15px;
+    width: 100%; text-align: right; transition: color 0.3s;
 }
-
-.btn-vaciar:hover {
-    color: #dc2626; /* Rojo más oscuro */
-}
+.btn-vaciar:hover { color: #dc2626; }
 
 .item-carrito {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Alinea el texto y el basurero al medio */
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
+    display: flex; justify-content: space-between; align-items: center; 
+    margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #eee;
 }
 
 .btn-eliminar-item {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.2rem;
-    padding: 5px;
-    transition: transform 0.2s;
+    background: none; border: none; cursor: pointer; font-size: 1.2rem;
+    padding: 5px; transition: transform 0.2s;
 }
+.btn-eliminar-item:hover { transform: scale(1.2); }
 
-.btn-eliminar-item:hover {
-    transform: scale(1.2); /* Crece un poquito al pasar el mouse */
-}
-
-/* Efecto hover para botones principales */
-.btn-comprar:hover:not(:disabled), 
-.btn-pagar:hover:not(:disabled) {
+.btn-comprar:hover:not(:disabled), .btn-pagar:hover:not(:disabled) {
     background-color: var(--naranja-hover);
     transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(242, 116, 5, 0.3); /* Sombra color naranja sutil */
+    box-shadow: 0 4px 10px rgba(242, 116, 5, 0.3); 
 }
 
-/* El menú de navegación activo en azul para mantener sobriedad */
-.nav-categorias a.activo, .nav-categorias a:hover {
-    color: var(--azul-medio);
-    border-bottom: 2px solid var(--celeste);
-}
-
-/* Notificaciones Toast */
+/* =========================================
+   NOTIFICACIONES TOAST
+   ========================================= */
 #toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    position: fixed; bottom: 20px; right: 20px; z-index: 9999;
+    display: flex; flex-direction: column; gap: 10px;
 }
 
 .toast {
-    min-width: 250px;
-    padding: 15px 20px;
-    border-radius: 8px;
-    color: white;
-    font-weight: 500;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    animation: slideInRight 0.3s ease forwards;
-    opacity: 0;
-    transform: translateX(100%);
+    min-width: 250px; padding: 15px 20px; border-radius: 8px; color: white;
+    font-weight: 500; font-size: 0.95rem; box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    display: flex; align-items: center;
+    animation: slideInRight 0.3s ease forwards; opacity: 0; transform: translateX(100%);
 }
+.toast.ocultar { animation: slideOutRight 0.3s ease forwards; }
 
-/* Animación para ocultar el toast suavemente */
-.toast.ocultar {
-    animation: slideOutRight 0.3s ease forwards;
-}
+.toast-exito { background-color: #10B981; } 
+.toast-error { background-color: #EF4444; } 
+.toast-info  { background-color: var(--azul-oscuro); } 
 
-/* Colores según el tipo de mensaje */
-.toast-exito { background-color: #10B981; } /* Verde esmeralda para éxito */
-.toast-error { background-color: #EF4444; } /* Rojo para errores */
-.toast-info  { background-color: var(--azul-oscuro); } /* El azul corporativo */
+@keyframes slideInRight { to { transform: translateX(0); opacity: 1; } }
+@keyframes slideOutRight { to { transform: translateX(100%); opacity: 0; } }
 
-/* Keyframes de las animaciones */
-@keyframes slideInRight {
-    to { transform: translateX(0); opacity: 1; }
-}
-@keyframes slideOutRight {
-    to { transform: translateX(100%); opacity: 0; }
-}
-
-/* HERO SECTION  */
+/* =========================================
+   HERO SECTION (BANNER)
+   ========================================= */
 .hero-section {
-    /* Gradiente moderno usando las variables de tu paleta */
     background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
-    color: white;
-    padding: 80px 20px;
-    text-align: center;
-    border-radius: 12px;
-    margin: 20px auto 40px;
-    max-width: 1200px;
-    box-shadow: 0 10px 30px rgba(3, 74, 166, 0.3); /* Sombra azulada */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: white; padding: 80px 20px; text-align: center; border-radius: 12px;
+    margin: 20px auto 40px; max-width: 1200px;
+    box-shadow: 0 10px 30px rgba(3, 74, 166, 0.3); display: flex; align-items: center; justify-content: center;
 }
-
-.hero-contenido {
-    max-width: 650px;
-}
-
-.hero-contenido h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    margin-bottom: 15px;
-    letter-spacing: -1px;
-}
-
-.hero-contenido p {
-    font-size: 1.15rem;
-    margin-bottom: 30px;
-    color: var(--celeste); /* El celeste brillante queda genial sobre fondo oscuro */
-    line-height: 1.5;
-}
+.hero-contenido { max-width: 650px; }
+.hero-contenido h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
+.hero-contenido p { font-size: 1.15rem; margin-bottom: 30px; color: var(--celeste); line-height: 1.5; }
 
 .btn-hero {
-    display: inline-block;
-    background-color: var(--naranja-cta);
-    color: white;
-    padding: 14px 32px;
+    display: inline-block; background-color: var(--naranja-cta); color: white;
+    padding: 14px 32px; font-size: 1.1rem; font-weight: bold; text-decoration: none;
+    border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(242, 116, 5, 0.4);
+}
+.btn-hero:hover { background-color: var(--naranja-hover); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(242, 116, 5, 0.6); }
+
+@media (max-width: 768px) {
+    .hero-section { padding: 50px 20px; margin: 10px 10px 30px; border-radius: 8px; }
+    .hero-contenido h1 { font-size: 2.2rem; }
+}
+
+/* =========================================
+   MODAL DE REGISTRO / CHECKOUT
+   ========================================= */
+.overlay-oscuro {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 2000; backdrop-filter: blur(3px); 
+}
+
+.modal-checkout {
+    background: white; padding: 30px; border-radius: 12px;
+    width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: deslizarArriba 0.3s ease-out;
+}
+
+@keyframes deslizarArriba {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.modal-header h2 { color: var(--azul-oscuro); font-size: 1.5rem; }
+.btn-cerrar-modal { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; }
+
+.grupo-input { margin-bottom: 20px; }
+.grupo-input label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; }
+.grupo-input input {
+    width: 100%; padding: 12px; border: 1px solid #ccc;
+    border-radius: 8px; font-size: 1rem; transition: border-color 0.3s ease;
+}
+.grupo-input input:focus { outline: none; border-color: var(--naranja-cta); }
+
+/* =========================================
+   PESTAÑAS DE AUTENTICACIÓN (LOGIN/REGISTRO)
+   ========================================= */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-tab {
+    background: none;
+    border: none;
     font-size: 1.1rem;
     font-weight: bold;
-    text-decoration: none;
-    border-radius: 8px;
+    color: #888;
+    cursor: pointer;
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(242, 116, 5, 0.4);
 }
 
-.btn-hero:hover {
-    background-color: var(--naranja-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(242, 116, 5, 0.6);
+.auth-tab.activa {
+    color: var(--azul-oscuro);
+    border-bottom: 2px solid var(--acento);
 }
 
-/* Ajuste responsivo para celulares */
-@media (max-width: 768px) {
-    .hero-section {
-        padding: 50px 20px;
-        margin: 10px 10px 30px;
-        border-radius: 8px;
-    }
-    .hero-contenido h1 { font-size: 2.2rem; }
+.auth-tab:hover:not(.activa) {
+    color: var(--azul-medio);
 }
