@@ -2,11 +2,11 @@
    VARIABLES GLOBALES
    ========================================= */
 :root {
-    --azul-oscuro: #034AA6;
+    --azul-oscuro: #034AA6;;
     --azul-medio: #035AA6;
     --celeste: #05C7F2;
-    --naranja-cta: #F27405;
-    --naranja-hover: #F25C05;
+    --naranja-cta: #fd4e4b;
+    --naranja-hover: #fd4e4ed9;
 
     --acento: var(--naranja-cta); 
     --texto: var(--azul-oscuro);  
@@ -26,7 +26,7 @@ body {
     color: var(--texto);
 }
 
-/* 🔥 LA REGLA VITAL PARA OCULTAR MODALES 🔥 */
+/* OCULTAR MODALES */
 .oculto {
     display: none !important;
 }
@@ -60,7 +60,7 @@ body {
 }
 
 .logo-img {
-    max-height: 90px;
+    max-height: 100px;
     width: auto;
     display: block;
     border-radius: 15px;
@@ -449,7 +449,7 @@ body {
    ========================================= */
 .hero-section {
     background: linear-gradient(135deg, var(--azul-oscuro) 0%, var(--azul-medio) 100%);
-    color: white; padding: 80px 20px; text-align: center; border-radius: 12px;
+    color: #3dd8f7; padding: 80px 20px; text-align: center; border-radius: 12px;
     margin: 20px auto 40px; max-width: 1200px;
     box-shadow: 0 10px 30px rgba(3, 74, 166, 0.3); display: flex; align-items: center; justify-content: center;
 }

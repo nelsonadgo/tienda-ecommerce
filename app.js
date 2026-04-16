@@ -359,34 +359,66 @@ function resetearModal3D() {
 }
 
 // =========================================
-// INTEGRACIÓN CON MERCADO PAGO
+// INTEGRACIÓN CON MERCADO PAGO - CORREGIDO
 // =========================================
 async function procesarPagoMercadoPago() {
     try {
+        // 1. Verificar que el carrito no esté vacío (seguridad extra)
+        if (carrito.length === 0) {
+            throw new Error("El carrito está vacío. Agrega productos antes de pagar.");
+        }
+
+        // 2. Agrupar los items correctamente para el Backend
         const itemsAgrupados = [];
         carrito.forEach(prod => {
-            const itemExistente = itemsAgrupados.find(i => i.ProductoId === prod.id);
-            if (itemExistente) { itemExistente.Cantidad += 1; } 
-            else { itemsAgrupados.push({ ProductoId: prod.id, Cantidad: 1 }); }
+            const itemExistente = itemsAgrupados.find(i => i.Id === prod.id);
+            if (itemExistente) { 
+                itemExistente.Quantity += 1; 
+            } else { 
+                // MUY IMPORTANTE: Enviamos el Precio y el Nombre también
+                itemsAgrupados.push({ 
+                    Id: prod.id, 
+                    Title: prod.nombre,
+                    UnitPrice: prod.precio,
+                    Quantity: 1 
+                }); 
+            }
         });
 
+        // 3. Preparar la URL del endpoint de tu backend para crear la preferencia de pago
         const urlPagos = 'https://localhost:7117/api/pagos/crear-preferencia'; 
+        
+        // 4. Enviar la petición al servidor (C# .NET)
         const respuesta = await fetch(urlPagos, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Items: itemsAgrupados })
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json' // Buena práctica: decir que esperamos JSON de vuelta
+            },
+            // Enviamos el objeto con la estructura que tu backend probablemente espera
+            body: JSON.stringify({ Items: itemsAgrupados }) 
         });
 
-        if (!respuesta.ok) throw new Error("El backend rechazó la solicitud de pago.");
+        if (!respuesta.ok) {
+            // Si el backend da error (ej: 400 Bad Request o 500 Internal Server Error), lanzamos excepción
+            throw new Error(`Error en el servidor: ${respuesta.status} ${respuesta.statusText}`);
+        }
 
         const datos = await respuesta.json();
-        window.location.href = datos.urlPago; 
+        
+        // 5. Validar que la URL de pago exista antes de redirigir
+        if (datos && datos.urlPago) {
+            window.location.href = datos.urlPago; 
+        } else {
+            throw new Error("El servidor no devolvió una URL de pago válida.");
+        }
 
     } catch (error) {
+        console.error("Error en procesarPagoMercadoPago:", error);
+        mostrarToast(error.message, "error"); // Mostramos el error al usuario
         btnPagar.disabled = false;
         btnPagar.innerText = "Ir a Pagar";
         overlayCheckout.classList.add('oculto');
-        throw error; 
     }
 }
 
