@@ -204,9 +204,11 @@ body {
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.1s ease;
     width: 100%; 
 }
+
+.btn-comprar:active { transform: scale(0.95); }
 
 .btn-comprar:hover { background-color: var(--naranja-hover); }
 .btn-comprar:disabled { background-color: #ccc; cursor: not-allowed; }
@@ -452,8 +454,13 @@ body {
     box-shadow: 0 10px 30px rgba(3, 74, 166, 0.3); display: flex; align-items: center; justify-content: center;
 }
 .hero-contenido { max-width: 650px; }
-.hero-contenido h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; }
-.hero-contenido p { font-size: 1.15rem; margin-bottom: 30px; color: var(--celeste); line-height: 1.5; }
+.hero-contenido h1 { font-size: 2.8rem; font-weight: 800; margin-bottom: 15px; letter-spacing: -1px; animation: fadeAbajo 0.8s ease-out forwards; }
+.hero-contenido p { font-size: 1.15rem; margin-bottom: 30px; color: var(--celeste); line-height: 1.5; opacity: 0; animation: fadeAbajo 0.8s ease-out 0.3s forwards; }
+
+@keyframes fadeAbajo {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
 .btn-hero {
     display: inline-block; background-color: var(--naranja-cta); color: white;
@@ -465,6 +472,85 @@ body {
 @media (max-width: 768px) {
     .hero-section { padding: 50px 20px; margin: 10px 10px 30px; border-radius: 8px; }
     .hero-contenido h1 { font-size: 2.2rem; }
+}
+
+/* Contenedor de la animación en el Hero */
+.hero-animacion-container {
+    display: flex;
+    gap: 15px;
+    margin-left: 40px;
+    perspective: 1000px; /* Necesario para efectos 3D si luego agregamos paralaje aquí */
+}
+
+/* Tarjetas miniatura para el Hero */
+.hero-card {
+    background: rgba(255, 255, 255, 0.1); /* Fondo semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto cristal */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 15px;
+    width: 140px;
+    text-align: center;
+    color: white;
+    /* Estado inicial para el Deslizamiento (Oculto y desplazado a la derecha) */
+    opacity: 0;
+    transform: translateX(50px);
+    transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+
+/* Definimos el efecto HOVER */
+.hero-card:hover {
+    transform: translateY(-5px) scale(1.02); /* Se eleva 5px y se agranda un 2% */
+    background: rgba(255, 255, 255, 0.2); /* Se vuelve un poco más blanca/brillante */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Aumenta la sombra para dar sensación de profundidad */
+    border-color: rgba(255, 255, 255, 0.4); /* El borde se ilumina un poco más */
+}
+
+.hero-card img {
+    width: 100%;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.hero-card p {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0;
+    color: #fff; /* Asegurar que el texto sea blanco sobre el fondo oscuro */
+}
+
+/* Estado final de la animación (Clase que agrega JS) */
+.hero-card.slide-in-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Ajuste responsivo para el Hero con animación */
+@media (min-width: 900px) {
+    .hero-section {
+        justify-content: space-between; /* Separa el texto de la animación */
+        text-align: left;
+        padding: 60px 50px;
+    }
+    .hero-contenido {
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 899px) {
+    .hero-section {
+        flex-direction: column;
+    }
+    .hero-animacion-container {
+        margin-left: 0;
+        margin-top: 30px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 /* =========================================
@@ -527,4 +613,20 @@ body {
 
 .auth-tab:hover:not(.activa) {
     color: var(--azul-medio);
+}
+
+/* =========================================
+   ANIMACIONES DINÁMICAS (SCROLL REVEAL)
+   ========================================= */
+/* Estado inicial de las tarjetas (ocultas y desplazadas hacia abajo) */
+.tarjeta-producto {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+}
+
+/* Estado final cuando el JS detecta que entraron a la pantalla */
+.tarjeta-producto.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
